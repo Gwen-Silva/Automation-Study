@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite Name">
+    <listeners>
+        <listener class-name="tests.selenium.TestListener" />
+    </listeners>
+
+    <!-- Incluir seus testes aqui -->
+    <test name="Test Name">
+        <classes>
+            <class name="tests.selenium.TestSelenium" />
+        </classes>
+    </test>
+</suite>
