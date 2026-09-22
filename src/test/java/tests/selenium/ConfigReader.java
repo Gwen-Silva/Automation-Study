@@ -5,25 +5,21 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigReader {
-
-    private static Properties properties;
+    private static final Properties properties = new Properties();
 
     static {
-        properties = new Properties();
-        try {
-            FileInputStream fileInputStream = new FileInputStream("src/test/resources/config.properties");
-            properties.load(fileInputStream);
-            fileInputStream.close();
+        try (FileInputStream input = new FileInputStream("src/test/resources/config.properties")) {
+            properties.load(input);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Unable to load test configuration.", e);
         }
     }
 
     public static String getUrl() {
-        return properties.getProperty("baseUrl");
-    }
-
-    public static String openChromeBrowser() {
-        return properties.getProperty("chromeDriverPath");
+        String url = properties.getProperty("baseUrl");
+        if (url == null || url.trim().isEmpty()) {
+            throw new IllegalStateException("Missing baseUrl in test configuration.");
+        }
+        return url;
     }
 }
